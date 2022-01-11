@@ -1,35 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
-
-const languageMap = {
-  en: { label: "English", active: true },
-  fr: { label: "Français", active: false }
-};
 
 const LanguageSelect = () => {
-  const selected = localStorage.getItem("i18nextLng") || "en";
-  const { t } = useTranslation();
-
-  const [menuAnchor, setMenuAnchor] = useState(null);
-
-  useEffect(() => {
-    document.body.dir = languageMap[selected].dir;
-  }, [menuAnchor, selected]);
+  const { i18n } = useTranslation();
 
   return (
     <div>
-      {Object.keys(languageMap)?.map(item => (
-        <p
-          key={item}
-          onClick={() => {
-            i18next.changeLanguage(item);
-            setMenuAnchor(null);
-          }}
-        >
-          {languageMap[item].label}
-        </p>
-      ))}
+      <select
+        value={i18n.language}
+        onChange={(e) =>
+          i18n.changeLanguage(e.target.value)
+        }
+      >
+        <option value="en">English</option>
+        <option value="fr">French</option>
+      </select>
     </div>
   );
 };
